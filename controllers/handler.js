@@ -7,6 +7,18 @@ let uraianTugas = [
     'Melakukan dokumentasi tindakan keperawatan',
     'Melakukan perawatan luka',
     'Melakukan tindakan keperawatan dalam kondisi gawat darurat / bencana / kritikal'
-];
-let 
+]
 const randomNumber = Math.trunc(Math.random() * 10) + 5;
+const inputJam = {
+    pgDtg : '07.30',
+    pgPlg : '14:30',
+    srPlg : '21:30',
+    mlmDtg : '23:55',
+}
+const reformat = (d) => {
+    d < 10 ? d = "0" + d :
+    d
+}
+
+const loginurl = 'http://36.66.236.83/elogbook-samarinda/index.php'
+const inputurl = 'http://36.66.236.83/elogbook-samarinda/index.php/aktivitas'
