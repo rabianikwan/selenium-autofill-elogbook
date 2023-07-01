@@ -48,9 +48,10 @@ async function selenium(login, nip, pass, dashboard, function1 ,month, function2
     console.log(formatDate)
     await driver.sleep(5000)
     // key of looping
+    console.log(arrayShift)
 
     for (let i = 0; i <= arrayShift.length; i++) {
-      if (arrayShift[i] !== "l" && arrayShift[i]) {
+      if (arrayShift[i] === 'l') {
         //login to dasboard for inserting value
         await driver.get(dashboard)
         await driver.findElement(By.name('button')).click()
@@ -58,13 +59,15 @@ async function selenium(login, nip, pass, dashboard, function1 ,month, function2
         //storing element for input
         const dateInput = await driver.findElement(By.name("tgl_aktivitas"), 3000)
         let randomnumber = Math.ceil(Math.random() * 20) + 10;
+        let random2 = Math.trunc(Math.random() * 5) + 1;
+        console.log(arrayShift[i-1])
 
         switch (arrayShift[i]) {
           case 'p' :
             console.log('dinas pagi', formatDate[i])
-            dateInput.sendKeys(Key.DELETE)
-            dateInput.sendKeys(formatDate[i], Key.ENTER)
-            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
+            await dateInput.sendKeys(Key.DELETE)
+            await dateInput.sendKeys(formatDate[i], Key.ENTER)
+            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[random2])
             await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB,
                 randomnumber, Key.TAB,
                 metric, Key.TAB,
@@ -75,9 +78,9 @@ async function selenium(login, nip, pass, dashboard, function1 ,month, function2
             break;
           case 's' :
             console.log('dinas sore' + ' ' + formatDate[i])
-            dateInput.sendKeys(Key.DELETE)
-            dateInput.sendKeys(formatDate[i], Key.ENTER)
-            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
+            await dateInput.sendKeys(Key.DELETE)
+            await dateInput.sendKeys(formatDate[i], Key.ENTER)
+            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[random2])
             await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB,
                 randomnumber, Key.TAB,
                 metric, Key.TAB,
@@ -88,32 +91,38 @@ async function selenium(login, nip, pass, dashboard, function1 ,month, function2
             break;
           case 'm' :
             console.log('dinas malam' + ' ' + formatDate[i])
-            dateInput.sendKeys(Key.DELETE)
-            dateInput.sendKeys(formatDate[i], Key.ENTER)
-            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
+            await dateInput.sendKeys(Key.DELETE)
+            await dateInput.sendKeys(formatDate[i], Key.ENTER)
+            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[random2])
             await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB, randomnumber, Key.TAB,
-                metric, Key.TAB, shiftTime.malam3, Key.TAB, shiftTime.pagi)
+                metric, Key.TAB, shiftTime.malam, Key.TAB, shiftTime.malam2)
             await driver.findElement(By.css('button[type="submit"]')).click();
             await driver.sleep(5000)
-
             //repating for next day
-
-            await driver.get(dashboard)
-            await driver.findElement(By.name('button')).click()
-            await driver.sleep(2000)
-            dateInput.sendKeys(Key.DELETE)
-            dateInput.sendKeys(formatDate[i], Key.ENTER)
-            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
-            await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB,
-                randomnumber, Key.TAB,
-                metric, Key.TAB,
-                shiftTime.malam3, Key.TAB,
-                shiftTime.pagi, Key.TAB)
-            await driver.findElement(By.css('button[type="submit"]')).click();
-            await driver.sleep(2000)
+            //   if (arrayShift[i-1] === 'm') {
+            //     await driver.get(dashboard)
+            //     await driver.findElement(By.name('button')).click()
+            //     await driver.sleep(2000)
+            //     await dateInput.sendKeys(Key.DELETE)
+            //     await dateInput.sendKeys(nextday, Key.ENTER)
+            //   }
+            // await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
+            // await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB,
+            //     randomnumber, Key.TAB,
+            //     metric, Key.TAB,
+            //     shiftTime.malam3, Key.TAB,
+            //     shiftTime.pagi, Key.TAB)
+            // await driver.findElement(By.css('button[type="submit"]')).click();
+            // await driver.sleep(2000)
             break;
           default :
             console.log('Libur Dinas')
+        }
+
+        if (arrayShift[i-1] === 'm') {
+          await driver.sleep(2000)
+          await dateInput.sendKeys(Key.DELETE)
+          await dateInput.sendKeys(formatDate[i], Key.ENTER)
         }
       }
     }
