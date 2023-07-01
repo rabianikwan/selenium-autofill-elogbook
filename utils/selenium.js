@@ -24,31 +24,33 @@ const shiftTime = {
   malam3 : "00:00",
 }
 const formatDate = []
-function fillFormatDate(bulan) {
+async function fillFormatDate(bulan) {
   for (let i = 1 ; i <=30; i++) {
     let array = [];
-    formatDate.push(`${i}-${bulan}-2023`)
+    formatDate.push(`${i}/${bulan}/2023`)
   }
 }
-function editShift(shift) {
+async function editShift(shift) {
   return shift.split('')
 }
 function randomFromArray(array) {
   return Math.round(Math.random() * (array.length + 1))
 }
 
-async function selenium() {
+async function selenium(login, nip, pass, dashboard, function1 ,month, function2, shift) {
   let driver = await new Builder().forBrowser(Browser.CHROME).build();
-  await fillFormatDate(bulan)
   try {
     await driver.get(login);
     await driver.findElement(By.name('username')).sendKeys(nip, Key.TAB, pass, Key.ENTER);
+    await function1(month)
+    const arrayShift = await function2(shift)
+    console.log(arrayShift)
+    console.log(formatDate)
     await driver.sleep(5000)
     // key of looping
-    const arrayShift = await editShift(shift)
 
-    for (let i = 0; i < arrayShift.length; i++) {
-      if (arrayShift[i] !== "l" &&  arrayShift[i] !== "p" && arrayShift[i] !== "s") {
+    for (let i = 0; i <= arrayShift.length; i++) {
+      if (arrayShift[i] !== "l" && arrayShift[i]) {
         //login to dasboard for inserting value
         await driver.get(dashboard)
         await driver.findElement(By.name('button')).click()
@@ -59,10 +61,11 @@ async function selenium() {
 
         switch (arrayShift[i]) {
           case 'p' :
-            console.log('dinas pagi')
-            await driver.findElement(By.name("tgl_aktivitas"), 1000).sendKeys(Key.DELETE)
-            await driver.findElement(By.name("tgl_aktivitas"), 1000).sendKeys(formatDate[i], Key.ENTER, Key.TAB, jobDescriptions[randomFromArray(jobDescriptions)], Key.TAB,
-                activities, Key.TAB,
+            console.log('dinas pagi', formatDate[i])
+            dateInput.sendKeys(Key.DELETE)
+            dateInput.sendKeys(formatDate[i], Key.ENTER)
+            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
+            await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB,
                 randomnumber, Key.TAB,
                 metric, Key.TAB,
                 shiftTime.pagi, Key.TAB,
@@ -71,41 +74,43 @@ async function selenium() {
             await driver.sleep(2000)
             break;
           case 's' :
-            await dateInput.sendKeys(Key.DELETE)
-            await dateInput.sendKeys(formatDate[i], Key.ENTER, Key.TAB, jobDescriptions[randomFromArray(jobDescriptions)], Key.TAB,
-                activities, Key.TAB,
+            console.log('dinas sore' + ' ' + formatDate[i])
+            dateInput.sendKeys(Key.DELETE)
+            dateInput.sendKeys(formatDate[i], Key.ENTER)
+            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
+            await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB,
                 randomnumber, Key.TAB,
                 metric, Key.TAB,
                 shiftTime.siang, Key.TAB,
                 shiftTime.malam, Key.TAB)
             await driver.findElement(By.css('button[type="submit"]')).click();
             await driver.sleep(2000)
-            console.log('dinas sore')
             break;
           case 'm' :
-            await dateInput.sendKeys(Key.DELETE)
-            await dateInput.sendKeys(formatDate[i+1].toString(), Key.ENTER, Key.TAB, jobDescriptions[randomFromArray(jobDescriptions)], Key.TAB, activities, Key.TAB, randomnumber, Key.TAB, metric, Key.TAB, shiftTime.malam3, Key.TAB, shiftTime.pagi)
-            await driver.sleep(1000)
+            console.log('dinas malam' + ' ' + formatDate[i])
+            dateInput.sendKeys(Key.DELETE)
+            dateInput.sendKeys(formatDate[i], Key.ENTER)
+            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
+            await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB, randomnumber, Key.TAB,
+                metric, Key.TAB, shiftTime.malam3, Key.TAB, shiftTime.pagi)
             await driver.findElement(By.css('button[type="submit"]')).click();
-            await driver.sleep(2000)
+            await driver.sleep(5000)
 
             //repating for next day
-            // await driver.switchTo().newWindow('tab');
-            // await driver.get(dashboard)
-            // await driver.findElement(By.name('button')).click()
-            // await driver.sleep(2000)
-            // let nextDay = await formatDate[i+1]
-              //inputing
-            // await dateInput.sendKeys(Key.DELETE)
-            // await dateInput.sendKeys(nextDay, Key.ENTER, Key.TAB, jobDescriptions[randomFromArray(jobDescriptions)], Key.TAB,
-            //     activities, Key.TAB,
-            //     randomnumber, Key.TAB,
-            //     metric, Key.TAB,
-            //     shiftTime.malam3, Key.TAB,
-            //     shiftTime.pagi, Key.TAB)
-            // await driver.sleep(1000)
-            // await driver.findElement(By.css('button[type="submit"]')).click();
-            console.log('dinas malam')
+
+            await driver.get(dashboard)
+            await driver.findElement(By.name('button')).click()
+            await driver.sleep(2000)
+            dateInput.sendKeys(Key.DELETE)
+            dateInput.sendKeys(formatDate[i], Key.ENTER)
+            await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
+            await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB,
+                randomnumber, Key.TAB,
+                metric, Key.TAB,
+                shiftTime.malam3, Key.TAB,
+                shiftTime.pagi, Key.TAB)
+            await driver.findElement(By.css('button[type="submit"]')).click();
+            await driver.sleep(2000)
             break;
           default :
             console.log('Libur Dinas')
@@ -117,6 +122,8 @@ async function selenium() {
     await driver.quit();
   }
 }
-selenium().then(() => console.log('selenium telah selesai'))
+selenium(login, nip, pass, dashboard, fillFormatDate, bulan, editShift, shift)
+
+
 
 module.exports = selenium;
