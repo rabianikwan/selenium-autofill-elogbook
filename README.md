@@ -1,13 +1,31 @@
-# GitHub Codespaces ♥️ Express
+# Autofilling Job Activities for Civil Servant (Samarinda)
 
-Welcome to your shiny new Codespace running Express! We've got everything fired up and running for you to explore Express.
+### You can access [website here]('http://36.66.236.83/elogbook-samarinda/')
+### Requirements : 
++ Latest Chrome Browser
++ Node js
 
-You've got a blank canvas to work on from a git perspective as well. There's a single initial commit with the what you're seeing right now - where you go from here is up to you!
+![](./Docs/web.png)
 
-Everything you do here is contained within this one codespace. There is no repository on GitHub yet. If and when you’re ready you can click "Publish Branch" and we’ll create your repository and push up your project. If you were just exploring then and have no further need for this code then you can simply delete your codespace and it's gone forever.
-
-To run this application:
-
+# How to Use it
++ Download project or
 ```
-npm start
+git clone https://github.com/rabianikwan/Autosign-Project
 ```
++ From downloaded folder use terminal
+```
+npm install
+cd client
+npm run build:react
+```
++ run script :
+```
+cd
+npm run start
+```
+
+## fill form and Inject and Selenium will excecuted
+
+![](./Docs/project.png)
+
+
