@@ -1,6 +1,6 @@
 # Autofilling Job Activities for Civil Servant (Samarinda)
 
-### You can access [website here]('http://36.66.236.83/elogbook-samarinda/')
+### You can access [website here](http://36.66.236.83/elogbook-samarinda/)
 ### Requirements : 
 + Latest Chrome Browser
 + Node js
