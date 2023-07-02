@@ -98,8 +98,7 @@ class App extends Component {
                 </div>
                 <div className="flex items-center justify-end mt-4">
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <p className="text-sm text-gray-600 underline hover:text-gray-900"
-                      href="#">
+                  <p className="text-sm text-gray-600 underline hover:text-gray-900">
                     Sudah yakin?
                   </p> <button type="submit"
                                formMethod="post"
