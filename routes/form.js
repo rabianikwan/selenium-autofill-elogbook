@@ -19,14 +19,29 @@ router.post('/', (req, res) => {
 
     const nip = req.body.name
     const pass = req.body.pass
-    const month = req.body.month
+    const month = parseInt(req.body.month)
     const shiftScedule = req.body.shift
-    // yang belum finished login, dashboard, fillFormatDate, editShift
-    selenium(login, nip, pass, dashboard, month, shiftScedule).then(() => console.log('Process finished'))
 
-    res.status(200)
-        .send('<h1>Selenium akan segera berjalan</h1>')
+    if (nip && pass && month > 0 && month < 13) {
 
+        selenium(login, nip, pass, dashboard, month, shiftScedule).then(() => console.log('Process finished'))
+
+        res.status(200)
+            .json({
+                status : "Ok",
+                message : "selenium akan segera berjalan",
+                fromAuthor : "web ini tidak menyimpan password anda, aman kok"
+            })
+    } else {
+        res.json({
+            status : "gagal",
+            message : "isi dengan benar, jadwal dinas tanpa spasi"
+        })
+    }
+})
+
+router.use((req, res) => {
+    res.redirect('/')
 })
 
 export default router;

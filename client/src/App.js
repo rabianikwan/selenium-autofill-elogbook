@@ -34,7 +34,7 @@ class App extends Component {
               </a>
             </div>
             <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
-              <form>
+              <form action="/" method="post">
                 <div>
                   <label htmlFor="name"
                       className="block text-sm font-medium text-gray-700 undefined">
@@ -44,6 +44,8 @@ class App extends Component {
                     <input
                         type="text"
                         name="name"
+                        minLength="18"
+                        maxLength="18"
                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                   </div>
@@ -71,6 +73,8 @@ class App extends Component {
                     <input
                         type="number"
                         name="month"
+                        min="1"
+                        max="12"
                         placeholder="6"
                         className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
@@ -94,10 +98,10 @@ class App extends Component {
                 </div>
                 <div className="flex items-center justify-end mt-4">
                   {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                  <a className="text-sm text-gray-600 underline hover:text-gray-900"
+                  <p className="text-sm text-gray-600 underline hover:text-gray-900"
                       href="#">
                     Sudah yakin?
-                  </a> <button type="submit"
+                  </p> <button type="submit"
                                formMethod="post"
                                formAction="/"
                                className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-blue-500 border border-transparent rounded-md active:bg-gray-900 false">
@@ -113,3 +117,4 @@ class App extends Component {
 }
 
 export default App;
+
