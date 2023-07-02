@@ -21,7 +21,6 @@
   "contributors": [],
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "",
     "start": "node server.js"
   },
   "devDependencies": {
