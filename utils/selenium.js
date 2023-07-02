@@ -44,24 +44,37 @@ async function selenium(login, nip, pass, dashboard, function1 ,month, function2
     await driver.findElement(By.name('username')).sendKeys(nip, Key.TAB, pass, Key.ENTER);
     await function1(month)
     const arrayShift = await function2(shift)
-    console.log(arrayShift)
-    console.log(formatDate)
     await driver.sleep(5000)
     // key of looping
-    console.log(arrayShift)
+
 
     for (let i = 0; i <= arrayShift.length; i++) {
-      if (arrayShift[i] === 'l') {
+
+      if (arrayShift[i]) {
         //login to dasboard for inserting value
         await driver.get(dashboard)
         await driver.findElement(By.name('button')).click()
         await driver.sleep(2000)
-        //storing element for input
+
+        //storing element for find elements
         const dateInput = await driver.findElement(By.name("tgl_aktivitas"), 3000)
         let randomnumber = Math.ceil(Math.random() * 20) + 10;
         let random2 = Math.trunc(Math.random() * 5) + 1;
-        console.log(arrayShift[i-1])
 
+        if (arrayShift[i-1] === 'm') {
+          console.log('dinas malam' + ' ' + formatDate[i])
+          await driver.findElement(By.name("tgl_aktivitas"), 3000).sendKeys(Key.DELETE)
+          await driver.findElement(By.name("tgl_aktivitas"), 3000).sendKeys(formatDate[i], Key.ENTER)
+          await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[random2])
+          await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB, randomnumber, Key.TAB,
+              metric, Key.TAB, shiftTime.malam, Key.TAB, shiftTime.malam2, Key.TAB)
+          await driver.findElement(By.css('button[type="submit"]')).click();
+          await driver.sleep(2000)
+          await driver.get(dashboard)
+          await driver.findElement(By.name('button')).click()
+        }
+
+        //conditional shfit
         switch (arrayShift[i]) {
           case 'p' :
             console.log('dinas pagi', formatDate[i])
@@ -94,35 +107,16 @@ async function selenium(login, nip, pass, dashboard, function1 ,month, function2
             await dateInput.sendKeys(Key.DELETE)
             await dateInput.sendKeys(formatDate[i], Key.ENTER)
             await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[random2])
-            await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB, randomnumber, Key.TAB,
-                metric, Key.TAB, shiftTime.malam, Key.TAB, shiftTime.malam2)
+            await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB,
+                randomnumber, Key.TAB,
+                metric, Key.TAB,
+                shiftTime.malam, Key.TAB,
+                shiftTime.malam2, Key.TAB)
             await driver.findElement(By.css('button[type="submit"]')).click();
-            await driver.sleep(5000)
-            //repating for next day
-            //   if (arrayShift[i-1] === 'm') {
-            //     await driver.get(dashboard)
-            //     await driver.findElement(By.name('button')).click()
-            //     await driver.sleep(2000)
-            //     await dateInput.sendKeys(Key.DELETE)
-            //     await dateInput.sendKeys(nextday, Key.ENTER)
-            //   }
-            // await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[randomFromArray(jobDescriptions)])
-            // await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB,
-            //     randomnumber, Key.TAB,
-            //     metric, Key.TAB,
-            //     shiftTime.malam3, Key.TAB,
-            //     shiftTime.pagi, Key.TAB)
-            // await driver.findElement(By.css('button[type="submit"]')).click();
-            // await driver.sleep(2000)
+            await driver.sleep(2000)
             break;
           default :
             console.log('Libur Dinas')
-        }
-
-        if (arrayShift[i-1] === 'm') {
-          await driver.sleep(2000)
-          await dateInput.sendKeys(Key.DELETE)
-          await dateInput.sendKeys(formatDate[i], Key.ENTER)
         }
       }
     }
