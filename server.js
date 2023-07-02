@@ -1,18 +1,36 @@
-const express = require('express')
-const app = express()
-const port = 4400
-const rootDir = require('./utils/path')
+import express from 'express'
 
+import * as path from "path";
+
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+const port = 3000;
+
+const app = express()
+
+app.use(express.static(path.join(__dirname, 'client', 'build')))
 
 app.use(express.json())
-app.use(express.urlencoded({extended : true}))
-app.use(express.static('public'))
 
-app.use("/", (req, res) => {
-  res.status(200)
-      .sendFile(rootDir + '/views/index.html')
+app.use(express.urlencoded({ extended : true}))
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
 })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`)
+app.post('/', (req, res) => {
+
+    const nip = req.body.name
+    const pass = req.body.pass
+    const month = req.body.month
+    const shiftScedule = req.body.shift
+    console.log(nip, pass, month, shiftScedule)
+
+    res.status(201)
+        .send('<h1>Selenium akan segera berjalan</h1>')
+
 })
+
+app.listen(port, () => console.log('server running on http://localhost:' + port))
