@@ -24,7 +24,7 @@ cd
 npm run start
 ```
 
-## fill form and Inject and Selenium will excecute
+## Fill all input boxes, Inject and Selenium will execute
 
 ![](./Docs/project.png)
 
