@@ -2,14 +2,15 @@ import express from 'express'
 
 import index from './routes/form.js'
 
-import path from 'path'
+import path from "path"
+import {fileURLToPath} from "url";
 
-
-const port = 3000;
+const port = 3030;
 
 const app = express()
-
-app.use(express.static(path.join('client', 'build')))
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, './client', 'build')))
 
 app.use(express.json())
 

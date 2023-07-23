@@ -24,7 +24,7 @@ class App extends Component {
 
   render() {
     return (
-        <div>
+        <div className="h-full w-full bg-black">
           <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
             <div>
               <a href="/">

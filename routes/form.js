@@ -1,18 +1,19 @@
 import express from 'express';
 
-import * as path from "path";
+import path from "path";
 
 import selenium from '../utils/selenium.js'
 
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const router = express.Router()
-
 const login = 'http://36.66.236.83/elogbook-samarinda/'
-
 const dashboard = 'http://36.66.236.83/elogbook-samarinda/index.php/aktivitas'
 
 router.get('/', (req, res) => {
     res.status(200)
-        .sendFile(path.join('..', 'client', 'build', 'index.html'))
+        .sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
 })
 
 router.post('/', (req, res) => {
