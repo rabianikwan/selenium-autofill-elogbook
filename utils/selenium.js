@@ -43,10 +43,12 @@ async function selenium(login, nip, pass, dashboard ,month, shift) {
     await driver.findElement(By.name('username')).sendKeys(nip, Key.TAB, pass, Key.ENTER);
     await fillFormatDate(month)
     const arrayShift = await editShift(shift)
+    console.log(arrayShift)
+    console.log(formatDate)
     await driver.sleep(5000)
     // key of looping
 
-    for (let i = 0; i <= arrayShift.length; i++) {
+    for (let i = 0; i <= 31; i++) {
 
       if (arrayShift[i]) {
         //login to dasboard for inserting value
@@ -65,7 +67,7 @@ async function selenium(login, nip, pass, dashboard ,month, shift) {
           await driver.findElement(By.name("tgl_aktivitas"), 3000).sendKeys(formatDate[i], Key.ENTER)
           await driver.findElement(By.name("id_detail_tugas")).sendKeys(jobDescriptions[random2])
           await driver.findElement(By.name("ket_aktivitas")).sendKeys(activities, Key.TAB, randomnumber, Key.TAB,
-              metric, Key.TAB, shiftTime.malam, Key.TAB, shiftTime.malam2, Key.TAB)
+              metric, Key.TAB, "00:00", Key.TAB, "07:30", Key.TAB)
           await driver.findElement(By.css('button[type="submit"]')).click();
           await driver.sleep(2000)
           await driver.get(dashboard)
